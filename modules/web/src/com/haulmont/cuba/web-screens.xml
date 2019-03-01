@@ -72,10 +72,6 @@
             template="/com/haulmont/cuba/web/app/ui/statistics/threads-monitoring-window.xml" multipleOpen="true"
             route="threads"/>
 
-    <screen id="mainWindow"
-            template="/com/haulmont/cuba/web/app/mainwindow/mainwindow.xml"
-            route="main" rootRoute="true"/>
-
     <screen id="loginWindow"
             template="/com/haulmont/cuba/web/app/loginwindow/loginwindow.xml"
             route="login" rootRoute="true"/>

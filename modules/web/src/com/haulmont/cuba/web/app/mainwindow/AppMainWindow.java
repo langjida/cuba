@@ -17,20 +17,27 @@
 
 package com.haulmont.cuba.web.app.mainwindow;
 
+import com.haulmont.cuba.gui.Route;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.components.mainwindow.AppMenu;
 import com.haulmont.cuba.gui.components.mainwindow.AppWorkArea;
 import com.haulmont.cuba.gui.components.mainwindow.FoldersPane;
 import com.haulmont.cuba.gui.components.mainwindow.FtsField;
+import com.haulmont.cuba.gui.screen.MainWindow;
+import com.haulmont.cuba.gui.screen.Subscribe;
+import com.haulmont.cuba.gui.screen.UiController;
+import com.haulmont.cuba.gui.screen.UiDescriptor;
 import com.haulmont.cuba.web.WebConfig;
 import com.haulmont.cuba.web.gui.components.WebComponentsHelper;
 import com.haulmont.cuba.web.widgets.CubaHorizontalSplitPanel;
 import com.vaadin.server.Sizeable.Unit;
 
 import javax.inject.Inject;
-import java.util.Map;
 
-public class AppMainWindow extends AbstractMainWindow {
+@Route(path = "main", root = true)
+@UiDescriptor("mainwindow.xml")
+@UiController("mainWindow")
+public class AppMainWindow extends MainWindow {
 
     @Inject
     protected AppMenu mainMenu;
@@ -56,10 +63,8 @@ public class AppMainWindow extends AbstractMainWindow {
     @Inject
     protected WebConfig webConfig;
 
-    @Override
-    public void init(Map<String, Object> params) {
-        super.init(params);
-
+    @Subscribe
+    protected void onInit(InitEvent event) {
         mainMenu.focus();
 
         initLogoImage(logoImage);
@@ -87,12 +92,14 @@ public class AppMainWindow extends AbstractMainWindow {
 
             foldersSplit.remove(workArea);
 
-            int foldersSplitIndex = indexOf(foldersSplit);
+            Window window = getWindow();
 
-            remove(foldersSplit);
-            add(workArea, foldersSplitIndex);
+            int foldersSplitIndex = window.indexOf(foldersSplit);
 
-            expand(workArea);
+            window.remove(foldersSplit);
+            window.add(workArea, foldersSplitIndex);
+
+            window.expand(workArea);
         }
     }
 }
